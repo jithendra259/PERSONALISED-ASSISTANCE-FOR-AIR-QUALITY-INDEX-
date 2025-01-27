@@ -1,12 +1,23 @@
-import { useState } from 'react';
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { CgProfile } from 'react-icons/cg';
+import './mainpage.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
+/**
+ * Mainpage component renders the main page layout including the profile icon.
+ */
 function Mainpage() {
-  
   return (
-    <div>
-      <h1>Main page</h1>
+    <div className="container">
+      <div className="mainpageclass">
+        <div className="mainheader">
+          <div className="profileicon">
+            <button type="button" className="btn btn-light" aria-label="Profile">
+              <CgProfile size={28}/>
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
