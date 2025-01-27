@@ -50,6 +50,7 @@ function Login() {
           <div className="text-center">
             <Link to="/forgot-password" className="me-3">Forgot Password?</Link>
             <Link to="/signup">Sign up</Link>
+            <Link to="/mainpage">Main page</Link>
           </div>
         </form>
       </div>

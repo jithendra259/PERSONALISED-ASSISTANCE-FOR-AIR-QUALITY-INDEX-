@@ -3,6 +3,7 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Login from './components/login/login';
 import Signup from './components/signup/signup';
+import Mainpage from './components/mainpage/mainpage';
 import 'bootstrap/dist/css/bootstrap.min.css'
 
 function App() {
