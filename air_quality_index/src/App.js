@@ -9,12 +9,12 @@ function App() {
   return (
     <Router>
       <div>
-        
         <Routes>
           {/* Default route */}
           <Route path="/" element={<Navigate to="/login" />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
+          <Route path="/mainpage" element={<Mainpage />} />
         </Routes>
       </div>
     </Router>
