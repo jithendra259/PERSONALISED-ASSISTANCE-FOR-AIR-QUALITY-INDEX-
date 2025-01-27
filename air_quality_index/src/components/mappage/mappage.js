@@ -1,9 +1,9 @@
 import React from 'react';
 import { CgProfile } from 'react-icons/cg';
-import './mainpage.css';
+import './mappage.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-function Mainpage(){
+function Mappage(){
   return (
     <div className="container">
       <div className="mainpageclass">
@@ -18,5 +18,4 @@ function Mainpage(){
     </div>
   );
 }
-
-export default Mainpage;
+export default Mappage;
