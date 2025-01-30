@@ -1,106 +1,45 @@
-/* Reset styles */
-*,
-*::before,
-*::after {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-/* Global styles */
-body {
-    font-family: 'Lato', sans-serif;
-    font-size: 16px;
-    line-height: 1.6;
-    color: #333;
-    background-color: #f4f4f4;
-    margin: 0;
-    padding: 0;
-}
-
-/* Container styling */
-.container {
-    max-width: 1200px;
-    margin: 0 auto;
-    overflow: hidden;
-    padding: 0 20px;
-}
-
-/* Main page styling */
-.mainpageclass {
-    position: relative;
-    padding: 5px;
-    background: #fff;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-/* Header styling */
-.mainheader {
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    padding: 10px;
-    border-bottom: 1px solid #ccc;
-}
-
-/* Profile button styling */
-.profileicon button {
-    position: fixed;
-    top: 20px;
-    right:20px;
-    height: 50px; /* Adjusted height for better fit */
-    width: 50px;  /* Adjusted width for better fit */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: #333;
-    background: #f4f4f4;
-    border: 1px solid #ccc;
-    border-radius: 50%;
-    cursor: pointer;
-    transition: background 0.3s ease, transform 0.2s ease;
-}
-
-.profileicon button:hover {
-    background: #e0e0e0;
-    transform: scale(1.1);
-}
-
-.profileicon button:focus {
-    outline: none;
-    box-shadow: 0 0 0 3px rgba(39, 49, 59, 0.5);
-}
-
-.profileicon .btn-icon {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 40px; /* Adjusted font-size for better fit */
-}
-
-.menuicon button {
-    position: fixed;
-    top: 20px;
-    left:20px;
-    height: 50px; /* Adjusted height for better fit */
-    width: 50px;  /* Adjusted width for better fit */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: #333;
-    background: #f4f4f4;
-    border: 1px solid #ccc;
-   
-    cursor: pointer;
-    transition: background 0.3s ease, transform 0.2s ease;
-}
-
-
-.menuicon .btn-icon
+.profileicon .btn
 {
-    display: flex;
-    justify-content: center;
+    background-color: #f8f9fa;
+    color: #000;
+    border: 1px solid #585757;
+    border-radius: 50%;
+    font-size: 25px;
+    cursor: pointer;
+    position: fixed;
     align-items: center;
-    font-size:100px;
+    justify-content: center;
+    top: 20px;
+    right: 40px;
+   
 }
+
+
+.profileicon .btn:hover
+{
+    background-color: #a8a3a3;
+    color: #f8f9fa;
+}
+
+.menuicon .dropdown .btn
+{
+
+    left:20px;
+    top: 20px;
+    position:fixed;
+
+}
+
+.menuicon .dropdown .btn:hover
+{
+    background-color: #a8a3a3;
+    color: #f8f9fa;
+}
+
+.navbar
+{
+    align-items: center;
+    justify-content: center;
+    display: flex;
+}
+
