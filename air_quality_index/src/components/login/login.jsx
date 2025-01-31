@@ -1,38 +1,29 @@
-import { useState } from 'react';
 import React from 'react';
 import { Link } from 'react-router-dom';
 
 function Login() {
-  const [email,setemail]=useState('')
-  const [password,setpassword]=useState('')
-  function handleSubmit(event){
-    event.preventDefault();
-  }
-  return ( 
-   
+  return (
     <div className="loginclass template d-flex justify-content-center align-items-center bg-primary vh-100">
       <div className="col-3 form_container p-5 rounded bg-white">
-        <form onSubmit={handleSubmit}>
+        <form>
           <h3 className="mb-4 text-center">Sign In</h3>
           <div className="mb-3">
             <label htmlFor="inputEmail" className="form-label">Email</label>
-            <input 
-            type="email" 
-            className="form-control" 
-            id="inputEmail" 
-            placeholder="Enter your email"
-            onChange={e=>setemail(e.target.value)}
+            <input
+              type="email"
+              className="form-control"
+              id="inputEmail"
+              placeholder="Enter your email"
             />
           </div>
 
           <div className="mb-3">
             <label htmlFor="inputPassword" className="form-label">Password</label>
             <input
-            type="password" 
-            className="form-control" 
-            id="inputPassword" 
-            placeholder="Enter your password" 
-            onChange={e=>setpassword(e.target.value)}
+              type="password"
+              className="form-control"
+              id="inputPassword"
+              placeholder="Enter your password"
             />
           </div>
 
@@ -49,7 +40,7 @@ function Login() {
 
           <div className="text-center">
             <Link to="/forgot-password" className="me-3">Forgot Password?</Link>
-            <Link to="/signup">Sign up</Link>
+            <Link to="/signup" className="me-3">Sign up</Link>
             <Link to="/mainpage">Main page</Link>
           </div>
         </form>
