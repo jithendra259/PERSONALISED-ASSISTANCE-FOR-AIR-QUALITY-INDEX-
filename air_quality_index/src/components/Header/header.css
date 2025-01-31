@@ -1,0 +1,49 @@
+.profileicon .btn
+{
+    background-color: #f8f9fa;
+    color: #000;
+    border: 1px solid #585757;
+    border-radius: 50%;
+    font-size: 25px;
+    cursor: pointer;
+    position:relative;
+    align-items: center;
+    justify-content: center;
+    top: 20px;
+    right: 40px;
+   
+}
+
+
+.profileicon .btn:hover
+{
+    background-color: #a8a3a3;
+    color: #f8f9fa;
+}
+
+.menuicon .dropdown .btn
+{
+
+    left:20px;
+    top: 20px;
+    position:relative;
+
+}
+
+.menuicon .dropdown .btn:hover
+{
+    background-color: #a8a3a3;
+    color: #f8f9fa;
+}
+
+.navbar
+{
+    align-items: center;
+    justify-content: center;
+    display: flex;
+}
+
+.navbar
+{
+    position: fixed;
+}
