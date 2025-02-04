@@ -5,7 +5,7 @@ import { CgProfile } from "react-icons/cg";
 import './header.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
-
+import Mainpage from '../mainpage/mainpage';
 function Header() {
   return (
     <header className="mainheader">
@@ -38,7 +38,7 @@ function Header() {
             
             {/* Navigation Links */}
             <li className="nav-item mx-1" >
-              <a className="nav-link active" href="/dashboard">Dashboard</a>
+              <a className="nav-link active" href="/mainpage">Dashboard</a>
             </li>
             
             <li className="nav-item dropdown mx-1">
