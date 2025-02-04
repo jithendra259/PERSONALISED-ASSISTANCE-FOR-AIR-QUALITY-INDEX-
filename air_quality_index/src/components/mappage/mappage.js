@@ -1,21 +1,26 @@
-import React from 'react';
-import { CgProfile } from 'react-icons/cg';
-import './mappage.css';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 
-function Mappage(){
+const MapPage = () => {
+  const [mapHtml, setMapHtml] = useState('');
+
+  useEffect(() => {
+    // Fetch the map HTML from the Flask backend
+    axios.get('http://127.0.0.1:5000/api/map')
+      .then(response => {
+        setMapHtml(response.data.map_html);
+      })
+      .catch(error => {
+        console.error('Error fetching map:', error);
+      });
+  }, []);
+
   return (
-    <div className="container">
-      <div className="mainpageclass">
-        <div className="mainheader">
-          <div className="profileicon">
-            <button type="button" className="btn btn-light" aria-label="Profile">
-              <CgProfile />
-            </button>
-          </div>
-        </div>
-      </div>
+    <div>
+      {/* Render the map HTML */}
+      <div dangerouslySetInnerHTML={{ __html: mapHtml }} />
     </div>
   );
-}
-export default Mappage;
+};
+
+export default MapPage;

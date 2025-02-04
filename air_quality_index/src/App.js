@@ -4,7 +4,8 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import Login from './components/login/login';
 import Signup from './components/signup/signup';
 import Mainpage from './components/mainpage/mainpage';
-import 'bootstrap/dist/css/bootstrap.min.css'
+import 'bootstrap/dist/css/bootstrap.min.css';
+import MapPage from './components/mappage/mappage';
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
           <Route path="/signup" element={<Signup />} />
           <Route path="/mainpage" element={<Mainpage />} />
           <Route path="" element={<Navigate to="/header" />} />
+          <Route path="/mappage" element={<MapPage/>}/>
         </Routes>
       </div>
     </Router>

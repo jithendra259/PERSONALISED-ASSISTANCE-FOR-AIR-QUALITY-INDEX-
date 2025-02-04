@@ -55,6 +55,10 @@ function Header() {
               </ul>
             </li>
 
+            <li className="nav-item mx-1" >
+              <a className="nav-link active" href="/mappage">Map</a>
+            </li>
+
             {/* Profile Icon */}
             <li className="nav-item profileicon mx-1">
               <div className="dropdown">
