@@ -5,7 +5,7 @@ import { CgProfile } from "react-icons/cg";
 import './header.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
-import Mainpage from '../mainpage/mainpage';
+
 function Header() {
   return (
     <header className="mainheader">
@@ -57,6 +57,10 @@ function Header() {
 
             <li className="nav-item mx-1" >
               <a className="nav-link active" href="/mappage">Map</a>
+            </li>
+
+            <li className="nav-item mx-1" >
+              <a className="nav-link active" href="/chatbot">Chatbot</a>
             </li>
 
             {/* Profile Icon */}
