@@ -1,3 +1,4 @@
+
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 import subprocess
@@ -55,3 +56,23 @@ def ask_deepseek():
 
 if __name__ == '__main__':
     Chatbot.run(debug=True)
+
+from fastapi import FastAPI
+from transformers import AutoModelForCausalLM, AutoTokenizer
+import torch
+
+chatbot= FastAPI()
+
+# Load model and tokenizer from Hugging Face
+MODEL_NAME = "deepseek-ai/deepseek-coder-6.7b"  # Change if needed
+tokenizer = AutoTokenizer.from_pretrained(MODEL_NAME)
+model = AutoModelForCausalLM.from_pretrained(MODEL_NAME, torch_dtype=torch.float16, device_map="auto")
+
+@chatbot.post("/generate/")
+async def generate_text(prompt: str):
+    inputs = tokenizer(prompt, return_tensors="pt").to("cuda")
+    outputs = model.generate(**inputs, max_new_tokens=100)
+    response = tokenizer.decode(outputs[0], skip_special_tokens=True)
+    return {"response": response}
+
+
