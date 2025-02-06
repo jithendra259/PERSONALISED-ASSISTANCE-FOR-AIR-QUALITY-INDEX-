@@ -1,11 +1,20 @@
 from flask import Flask, jsonify
 from flask_cors import CORS
 import folium
+# map_component/map.py
+from flask import Blueprint, jsonify
 
-app = Flask(__name__)
-CORS(app)  # Enable CORS for all routes
+# Use a different name (e.g., map_bp) to avoid conflict with Python’s built-in map() function.
+map_bp = Blueprint("map", __name__)
 
-@app.route('/api/map', methods=['GET'])
+@map_bp.route("/map", methods=["GET"])
+def get_map():
+    return jsonify({"message": "Hello from Map Component!"})
+
+map= Flask(__name__)
+CORS(map)  # Enable CORS for all routes
+
+@map.route('/api/map', methods=['GET'])
 def get_map():
     # Create a map
     m = folium.Map(location=[40.7128, -74.0060], zoom_start=12)
@@ -24,4 +33,5 @@ def get_map():
     return jsonify({'map_html': map_html})
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    map.run(debug=True)
+    

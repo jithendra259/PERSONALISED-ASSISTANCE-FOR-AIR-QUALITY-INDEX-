@@ -1,64 +1,47 @@
+// server.js
+
+// Import the required modules.
 const express = require('express');
-const bodyParser = require('body-parser');
-const mysql = require('mysql2');
-const bcrypt = require('bcrypt');
+
 
 const app = express();
-const port = 3001;
 
-// Middleware
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-// Database connection
-const db = mysql.createConnection({
-    host: 'localhost', // Change if your MySQL is hosted elsewhere
-    user: 'root', // Your MySQL username
-    password: '1234', // Your MySQL password
-    database: 'air_quality_index', // The database you created
+// Health check endpoint.
+app.get('/health', (req, res) => {
+  res.status(200).json({ status: 'OK' });
 });
 
-db.connect((err) => {
-    if (err) {
-        console.error('Database connection failed:', err);
-        return;
-    }
-    console.log('Connected to the MySQL database.');
+
+app.post('/ask', async (req, res) => {
+  const { query } = req.body;
+
+  if (!query) {
+    return res.status(400).json({ error: 'No query provided' });
+  }
+
+  try {
+    const output = `Processed query: ${query}`;
+    res.status(200).json({ response: output });
+  } catch (error) {
+    console.error('Error processing query:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
 });
 
-// Signup API
-app.post('/signup', async (req, res) => {
-    const { email, password } = req.body;
-
-    if (!email || !password) {
-        return res.status(400).json({ error: 'Email and password are required.' });
-    }
-
-    try {
-        // Check if the email is already registered
-        const [rows] = await db.promise().query('SELECT * FROM users WHERE email = ?', [email]);
-        if (rows.length > 0) {
-            return res.status(400).json({ error: 'Email is already registered.' });
-        }
-
-        // Hash the password
-        const saltRounds = 10;
-        const hashedPassword = await bcrypt.hash(password, saltRounds);
-
-        // Insert the user into the database
-        const [result] = await db.promise().query(
-            'INSERT INTO users (email, password_hash) VALUES (?, ?)',
-            [email, hashedPassword]
-        );
-
-        res.status(201).json({ message: 'User registered successfully.', userId: result.insertId });
-    } catch (err) {
-        console.error('Error during signup:', err);
-        res.status(500).json({ error: 'An error occurred during signup.' });
-    }
+/**
+ * Error-handling middleware.
+ * This catches any errors in your request handling and returns a JSON error.
+ */
+app.use((err, req, res, next) => {
+  console.error('Unhandled error:', err.stack);
+  res.status(500).json({ error: 'Something went wrong!' });
 });
 
-// Start server
-app.listen(port, () => {
-    console.log(`Server is running on http://localhost:${port}`);
+// Start the server.
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
 });

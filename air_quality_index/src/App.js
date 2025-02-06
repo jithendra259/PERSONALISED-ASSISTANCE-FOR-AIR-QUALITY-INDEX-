@@ -6,6 +6,7 @@ import Signup from './components/signup/signup';
 import Mainpage from './components/mainpage/mainpage';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import MapPage from './components/mappage/mappage';
+import Chatbot from './components/chatbot/chatbot';
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
           <Route path="/mainpage" element={<Mainpage />} />
           <Route path="" element={<Navigate to="/header" />} />
           <Route path="/mappage" element={<MapPage/>}/>
+          <Route path="/chatbot" element={<Chatbot/>}/>
         </Routes>
       </div>
     </Router>
