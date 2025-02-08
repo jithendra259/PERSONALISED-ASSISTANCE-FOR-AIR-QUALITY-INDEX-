@@ -7,6 +7,9 @@ import Mainpage from './components/mainpage/mainpage';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import MapPage from './components/mappage/mappage';
 import Chatbot from './components/chatbot/chatbot';
+import Test from './components/test/test';
+ //import searchbar from './components/Header/searchbar/searchbar';
+import Header from './components/Header/header';
 
 function App() {
   return (
@@ -21,6 +24,9 @@ function App() {
           <Route path="" element={<Navigate to="/header" />} />
           <Route path="/mappage" element={<MapPage/>}/>
           <Route path="/chatbot" element={<Chatbot/>}/>
+          <Route path="/test" element={<Test/>}/>
+          <Route path="/searchbar" element={<searchbar/>}/>
+          <Route path="/header" element={<Header/>}/>
         </Routes>
       </div>
     </Router>
