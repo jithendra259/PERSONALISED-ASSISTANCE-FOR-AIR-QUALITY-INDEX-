@@ -1,4 +1,11 @@
-.row2
-{
-    display: flex;
-}
+/* Default width with transition */
+.searchbar .search-bar {
+    width: 50px;
+    transition: width 0.3s ease;
+  }
+  
+  /* When the searchbar or any of its children are focused, expand the input */
+  .searchbar:focus-within .search-bar {
+    width: 300px;
+  }
+  

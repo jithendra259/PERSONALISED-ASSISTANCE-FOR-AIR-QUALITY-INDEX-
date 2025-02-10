@@ -1,0 +1,158 @@
+/* MapPage.css */
+
+/* ---------------------------
+   Search Bar Styles
+------------------------------ */
+.searchbar-container {
+  position: relative;
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.search-input-container {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+}
+
+.search-input {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border: none;
+  outline: none;
+}
+
+.search-button {
+  padding: 10px;
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+
+.search-button svg {
+  width: 20px;
+  height: 20px;
+  fill: #333;
+}
+
+.loading-text {
+  margin-top: 10px;
+  text-align: center;
+  color: #666;
+}
+
+.search-results-container {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.search-results-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.search-result-item {
+  padding: 10px;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.search-result-item:hover {
+  background-color: #f0f0f0;
+}
+
+.search-result-item.active {
+  background-color: #4CAF50;
+  color: #fff;
+}
+
+.badge {
+  background-color: #4CAF50;
+  color: #fff;
+  padding: 5px 10px;
+  border-radius: 12px;
+}
+
+/* ---------------------------
+   Map & Popup Styles
+------------------------------ */
+.leaflet-map {
+  height: 500px;
+  width: 100%;
+}
+
+.map-container {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+}
+
+#leaflet-map-error {
+  color: red;
+  padding: 5px;
+  position: absolute;
+  top: 70px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+}
+
+/* Popup content styling */
+.popup-content {
+  padding: 10px;
+  max-width: 300px;
+}
+
+.popup-content h3 {
+  margin: 0 0 10px 0;
+  color: #333;
+}
+
+.popup-content p {
+  margin: 5px 0;
+}
+
+.popup-content span {
+  display: inline-block;
+  margin-right: 10px;
+}
+
+.popup-content a {
+  color: #0078A8;
+  text-decoration: none;
+}
+
+.popup-content a:hover {
+  text-decoration: underline;
+}
+
+/* ---------------------------
+   Responsive Adjustments
+------------------------------ */
+@media (max-width: 768px) {
+  .searchbar-container {
+    max-width: 100%;
+  }
+  
+  .popup-content {
+    max-width: 250px;
+  }
+}

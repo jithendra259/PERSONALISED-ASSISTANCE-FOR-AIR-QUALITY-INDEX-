@@ -1,201 +1,78 @@
-import React, { useState, useMemo, useEffect } from 'react';
-import { Country, State, City } from 'country-state-city';
+import React, { useState, useEffect } from 'react';
 import './searchbar.css';
 
-// Custom hook for debouncing
-function useDebounce(value, delay) {
-  const [debouncedValue, setDebouncedValue] = useState(value);
-  useEffect(() => {
-    const handler = setTimeout(() => setDebouncedValue(value), delay);
-    return () => clearTimeout(handler);
-  }, [value, delay]);
-  return debouncedValue;
-}
+const API_TOKEN = 'c69bd9a20bccfbbe7b4f2e37a17b1a2f2332b423';
 
-// Precompute static data outside the component
-const allCountries = Country.getAllCountries();
-const allStates = allCountries.flatMap(country =>
-  State.getStatesOfCountry(country.isoCode).map(state => ({
-    ...state,
-    countryName: country.name,
-    countryIso: country.isoCode,
-  }))
-);
-const allCities = allStates.flatMap(state =>
-  City.getCitiesOfState(state.countryIso, state.isoCode).map(city => ({
-    ...city,
-    stateName: state.name,
-    countryName: state.countryName,
-    stateIso: state.isoCode,
-    countryIso: state.countryIso,
-  }))
-);
+function Searchbar({ onSelect }) {
+  const [query, setQuery] = useState('');
+  const [locations, setLocations] = useState([]);
+  const [loading, setLoading] = useState(false);
 
-function Searchbar() {
-  const [query, setQuery] = useState("");
-  const debouncedQuery = useDebounce(query, 300);
-  const [activeIndex, setActiveIndex] = useState(-1);
-  const [isSelected, setIsSelected] = useState(false);
-
-  // Filter results based on debounced query (first letter match)
-  const { countryMatches, stateMatches, cityMatches } = useMemo(() => {
-    const lowerQuery = debouncedQuery.toLowerCase();
-    return {
-      countryMatches: allCountries.filter(country =>
-        country.name.toLowerCase().startsWith(lowerQuery)
-      ),
-      stateMatches: allStates.filter(state =>
-        state.name.toLowerCase().startsWith(lowerQuery)
-      ),
-      cityMatches: allCities.filter(city =>
-        city.name.toLowerCase().startsWith(lowerQuery)
-      ),
-    };
-  }, [debouncedQuery]);
-
-  // Build grouped results
-  const groups = useMemo(() => {
-    if (debouncedQuery.trim() === "") return [];
-    const result = [];
-    if (countryMatches.length > 0) {
-      result.push({
-        header: 'Countries',
-        items: countryMatches.map(country => ({
-          type: 'country',
-          label: country.name,
-          id: `country-${country.isoCode}`,
-          data: country,
-        })),
-      });
+  const fetchLocations = async (query) => {
+    setLoading(true);
+    try {
+      const response = await fetch(`https://api.waqi.info/search/?keyword=${query}&token=${API_TOKEN}`);
+      const data = await response.json();
+      if (data.status === 'ok') {
+        setLocations(data.data);
+      } else {
+        setLocations([]);
+      }
+    } catch (error) {
+      console.error('Error fetching locations:', error);
+      setLocations([]);
     }
-    if (stateMatches.length > 0) {
-      result.push({
-        header: 'States',
-        items: stateMatches.map(state => ({
-          type: 'state',
-          label: `${state.name}, ${state.countryName}`,
-          id: `state-${state.isoCode}-${state.countryIso}`,
-          data: state,
-        })),
-      });
-    }
-    if (cityMatches.length > 0) {
-      result.push({
-        header: 'Cities',
-        items: cityMatches.map(city => ({
-          type: 'city',
-          label: `${city.name}, ${city.stateName}, ${city.countryName}`,
-          id: `city-${city.name}-${city.stateIso}-${city.countryIso}`,
-          data: city,
-        })),
-      });
-    }
-    return result;
-  }, [countryMatches, stateMatches, cityMatches]);
-
-  // Create a flat list of all items
-  const flatResults = useMemo(() => groups.flatMap(group => group.items), [groups]);
-
-  // Handle item selection
-  const handleSelect = (item) => {
-    setQuery(item.label);
-    setIsSelected(true);
-    setActiveIndex(-1);
+    setLoading(false);
   };
 
-  // Handle keyboard navigation
-  const handleKeyDown = (e) => {
-    if (!flatResults.length) return;
-    if (e.key === 'ArrowDown') {
-      e.preventDefault();
-      setActiveIndex(prev => (prev + 1) % flatResults.length);
-    } else if (e.key === 'ArrowUp') {
-      e.preventDefault();
-      setActiveIndex(prev => (prev - 1 + flatResults.length) % flatResults.length);
-    } else if (e.key === 'Enter' && activeIndex >= 0) {
-      e.preventDefault();
-      handleSelect(flatResults[activeIndex]);
-    }
-  };
-
-  // Reset selection state when query changes
   useEffect(() => {
-    setIsSelected(false);
-    setActiveIndex(-1);
+    if (query.length > 2) {
+      fetchLocations(query);
+    } else {
+      setLocations([]);
+    }
   }, [query]);
 
-  // Render dropdown groups
-  let overallIndex = 0;
-  const renderedGroups = groups.map(group => (
-    <React.Fragment key={group.header}>
-      <li className="dropdown-header">{group.header}</li>
-      {group.items.map(item => {
-        const currentIndex = overallIndex++;
-        return (
-          <li
-            key={item.id}
-            className={`dropdown-item-wrapper ${activeIndex === currentIndex ? 'active' : ''}`}
-            onMouseEnter={() => setActiveIndex(currentIndex)}
-            onClick={() => handleSelect(item)}
-          >
-            <div className="dropdown-item">{item.label}</div>
-          </li>
-        );
-      })}
-    </React.Fragment>
-  ));
+  const handleSelect = (location) => {
+    // Pass an object that includes a label and the station details
+    onSelect({
+      label: location.station.name,  // use the station name as the label
+      data: location.station,        // include the station data if needed
+    });
+    setQuery('');
+    setLocations([]);
+  };
 
   return (
-    <div className="searchbar">
-      <div className="bg-light d-flex justify-content-center align-items-center">
-        <div className="position-relative">
-          <input
-            type="text"
-            className="form-control rounded-pill search-bar pe-5"
-            placeholder="Search..."
-            aria-label="Search"
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            onKeyDown={handleKeyDown}
-            onFocus={() => setIsSelected(false)}
-          />
-          <button
-            className="btn position-absolute top-50 end-0 translate-middle-y"
-            type="button"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="16"
-              height="16"
-              fill="currentColor"
-              className="bi bi-search"
-              viewBox="0 0 16 16"
+    <div className="searchbar-container">
+      <div className="search-input-container">
+        <input
+          type="text"
+          placeholder="Search for a location"
+          className="search-input"
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+        />
+        <button className="search-button">
+          <svg viewBox="0 0 24 24">
+            <path d="M21.71 20.29l-3.4-3.39A9 9 0 1 0 18 19.59l3.39 3.4a1 1 0 0 0 1.41-1.41zM10 18a8 8 0 1 1 8-8 8 8 0 0 1-8 8z"/>
+          </svg>
+        </button>
+      </div>
+      {loading && <p className="loading-text">Loading...</p>}
+      <div className="search-results-container">
+        <ul className="search-results-list">
+          {locations.map((location) => (
+            <li
+              key={location.uid}
+              className="search-result-item"
+              onClick={() => handleSelect(location)}
             >
-              <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
-            </svg>
-          </button>
-
-          {debouncedQuery && !isSelected && (
-            <ul
-              className="dropdown-menu show"
-              style={{
-                width: "100%",
-                position: "absolute",
-                top: "100%",
-                left: 0,
-                zIndex: 1000,
-                maxHeight: "300px",
-                overflowY: "auto",
-              }}
-            >
-              {renderedGroups.length > 0 ? renderedGroups : (
-                <li>
-                  <span className="dropdown-item">No results found</span>
-                </li>
-              )}
-            </ul>
-          )}
-        </div>
+              {location.station.name}
+              <span className="badge">{location.aqi}</span>
+            </li>
+          ))}
+        </ul>
       </div>
     </div>
   );

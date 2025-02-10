@@ -3,16 +3,15 @@ import { Button, Container, Form, Nav, Navbar, NavDropdown, Offcanvas } from 're
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Searchbar from './searchbar/searchbar';
 
-
-function Header() {
+function Header({ onSelectLocation }) {
   const expand = 'lg'; // Specify the breakpoint for expanding the navbar
 
   return (
     <Navbar key={expand} expand={expand} className="bg-body-tertiary mb-3">
       <Container fluid>
-      <Form className="d-flex">
-            <Searchbar/>
-            </Form>
+        <Form className="d-flex">
+          <Searchbar onSelect={onSelectLocation} />
+        </Form>
         <Navbar.Toggle aria-controls={`offcanvasNavbar-expand-${expand}`} />
         <Navbar.Offcanvas
           id={`offcanvasNavbar-expand-${expand}`}
@@ -36,7 +35,6 @@ function Header() {
                 <NavDropdown.Item href="#action5">Something else here</NavDropdown.Item>
               </NavDropdown>
             </Nav>
-           
           </Offcanvas.Body>
         </Navbar.Offcanvas>
       </Container>
