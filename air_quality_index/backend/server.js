@@ -1,47 +1,26 @@
-// server.js
-
-// Import the required modules.
-const express = require('express');
-
+const express = require("express");
+const cors = require("cors");
+const { GoogleGenerativeAI } = require("@google/generative-ai");
 
 const app = express();
-
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(cors());
 
-// Health check endpoint.
-app.get('/health', (req, res) => {
-  res.status(200).json({ status: 'OK' });
-});
+const API_KEY = "AIzaSyAVP3w3Z6_58c3PrTgt6fR-3AqEWBbHkgY"; // Replace with your Gemini API key
+const genAI = new GoogleGenerativeAI(API_KEY);
+const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
-
-app.post('/ask', async (req, res) => {
-  const { query } = req.body;
-
-  if (!query) {
-    return res.status(400).json({ error: 'No query provided' });
-  }
-
+app.post("/generate", async (req, res) => {
   try {
-    const output = `Processed query: ${query}`;
-    res.status(200).json({ response: output });
+    const { prompt } = req.body;
+    const result = await model.generateContent(prompt);
+    const responseText = await result.response.text();
+    res.json({ response: responseText });
   } catch (error) {
-    console.error('Error processing query:', error);
-    res.status(500).json({ error: 'Internal Server Error' });
+    console.error("Error generating response:", error);
+    res.status(500).json({ error: "Internal Server Error" });
   }
 });
 
-/**
- * Error-handling middleware.
- * This catches any errors in your request handling and returns a JSON error.
- */
-app.use((err, req, res, next) => {
-  console.error('Unhandled error:', err.stack);
-  res.status(500).json({ error: 'Something went wrong!' });
-});
-
-// Start the server.
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+const PORT = 5000;
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
