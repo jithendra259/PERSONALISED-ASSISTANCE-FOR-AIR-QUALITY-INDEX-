@@ -21,7 +21,7 @@ function Aqiranking() {
 
   // Pagination states
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 25;
+  const itemsPerPage = 6;
 
   useEffect(() => {
     const fetchAQIRanking = async () => {
