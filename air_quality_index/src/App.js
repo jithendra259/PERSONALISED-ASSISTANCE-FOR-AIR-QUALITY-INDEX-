@@ -10,6 +10,7 @@ import Chatbot from './components/chatbot/chatbot';
 import Test from './components/test/test';
  //import searchbar from './components/Header/searchbar/searchbar';
 import Header from './components/Header/header';
+import Aqiranking from './components/aqiranking/aqiranking';
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
           <Route path="/test" element={<Test/>}/>
           <Route path="/searchbar" element={<searchbar/>}/>
           <Route path="/header" element={<Header/>}/>
+          <Route path='/aqiranking' element={<Aqiranking/>}/>
         </Routes>
       </div>
     </Router>

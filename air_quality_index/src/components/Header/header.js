@@ -29,7 +29,7 @@ function Header({ onSelectLocation }) {
               <Nav.Link href="/mappage">Map</Nav.Link>
               <Nav.Link href="/chatbot">Chatbot</Nav.Link>
               <NavDropdown title="Dropdown" id={`offcanvasNavbarDropdown-expand-${expand}`}>
-                <NavDropdown.Item href="#action3">Action</NavDropdown.Item>
+                <NavDropdown.Item href="/aqiranking">AQI Ranking</NavDropdown.Item>
                 <NavDropdown.Item href="#action4">Another action</NavDropdown.Item>
                 <NavDropdown.Divider />
                 <NavDropdown.Item href="#action5">Something else here</NavDropdown.Item>
